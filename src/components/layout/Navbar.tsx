@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Code2, Menu, X } from "lucide-react";
 import { NavLink, useLocation } from "react-router";
 import { navLinks, profile } from "../../data/profile";
+import { ThemeToggle } from "../common/ThemeToggle";
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +24,7 @@ export function Navbar() {
     <header
       className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/5 bg-[#0a0a0f]/90 shadow-lg backdrop-blur-md"
+          ? "border-b border-white/5 bg-[#0a0a0f]/90 shadow-lg backdrop-blur-md dark:bg-[#0a0a0f]/90"
           : "bg-transparent"
       }`}
     >
@@ -56,20 +57,24 @@ export function Navbar() {
             to="/contact"
             className="ml-3 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-2 text-sm text-white shadow-lg shadow-violet-500/20 transition-all hover:from-violet-500 hover:to-fuchsia-500 hover:shadow-violet-500/40"
           >
-            Hire Me
+            Let's Connect
           </NavLink>
         </nav>
 
-        <button
-          type="button"
-          className="rounded-lg p-2 text-gray-300 transition-colors hover:bg-white/5 hover:text-white md:hidden"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-navigation"
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="ml-auto flex items-center gap-2 md:ml-3">
+          <ThemeToggle />
+
+          <button
+            type="button"
+            className="rounded-lg p-2 text-gray-300 transition-colors hover:bg-white/5 hover:text-white md:hidden"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
@@ -98,7 +103,7 @@ export function Navbar() {
               to="/contact"
               className="mt-2 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-3 text-center text-sm text-white"
             >
-              Hire Me
+              Let's Connect
             </NavLink>
           </nav>
         </div>

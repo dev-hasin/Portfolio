@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { CheckCircle, Send } from "lucide-react";
+import { AlertCircle, CheckCircle, Send } from "lucide-react";
+import { profile } from "../../data/profile";
 import { cn } from "../../utils/classes";
 
 type FormData = {
@@ -23,11 +24,17 @@ const subjectOptions = [
   { value: "other", label: "Other" },
 ];
 
+const contactEndpoint =
+  import.meta.env.VITE_CONTACT_ENDPOINT?.trim() ||
+  `https://formsubmit.co/ajax/${profile.email}`;
+
 export function ContactForm() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [submitError, setSubmitError] = useState("");
+  const [website, setWebsite] = useState("");
 
   const validate = () => {
     const nextErrors: Partial<FormData> = {};
@@ -63,23 +70,64 @@ export function ContactForm() {
       return;
     }
 
+    setSubmitError("");
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setLoading(false);
-    setSubmitted(true);
+
+    try {
+      // This honeypot field is hidden from people but commonly filled by bots.
+      if (website) {
+        setSubmitted(true);
+        return;
+      }
+
+      const selectedSubject =
+        subjectOptions.find((option) => option.value === form.subject)?.label ?? form.subject;
+      const response = await fetch(contactEndpoint, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          subject: selectedSubject,
+          message: form.message.trim(),
+          _subject: `Portfolio inquiry: ${selectedSubject}`,
+          _template: "table",
+          _captcha: "false",
+          _honey: website,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("The contact service rejected the request.");
+      }
+
+      setSubmitted(true);
+      setForm(initialForm);
+    } catch {
+      setSubmitError(
+        `Your message could not be sent. Please try again or email me directly at ${profile.email}.`,
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetForm = () => {
     setSubmitted(false);
     setForm(initialForm);
     setErrors({});
+    setSubmitError("");
+    setWebsite("");
   };
 
   return (
-    <div className="lg:col-span-3">
-      <div className="rounded-3xl border border-white/5 bg-white/[0.02] p-8">
+    <div className="min-w-0 lg:col-span-3">
+      <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5 sm:rounded-3xl sm:p-8">
         {submitted ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="flex flex-col items-center justify-center py-10 text-center sm:py-16">
             <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10">
               <CheckCircle size={30} className="text-emerald-300" />
             </div>
@@ -97,7 +145,19 @@ export function ContactForm() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="absolute -left-[10000px]" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                value={website}
+                onChange={(event) => setWebsite(event.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+            <div className="grid min-w-0 gap-5 sm:grid-cols-2">
               <FieldErrorInput
                 label="Full Name"
                 name="name"
@@ -125,7 +185,7 @@ export function ContactForm() {
                 value={form.subject}
                 onChange={handleChange}
                 className={cn(
-                  "w-full appearance-none rounded-xl border bg-white/5 px-4 py-3 text-sm transition-colors focus:border-violet-500/50 focus:outline-none",
+                  "w-full min-w-0 appearance-none rounded-xl border bg-white/5 px-3 py-3 text-sm transition-colors focus:border-violet-500/50 focus:outline-none sm:px-4",
                   errors.subject ? "border-red-500/50" : "border-white/10",
                   form.subject ? "text-white" : "text-gray-600",
                 )}
@@ -150,9 +210,10 @@ export function ContactForm() {
                 value={form.message}
                 onChange={handleChange}
                 rows={6}
+                maxLength={2000}
                 placeholder="Tell me about your project or idea..."
                 className={cn(
-                  "w-full resize-none rounded-xl border bg-white/5 px-4 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-violet-500/50 focus:outline-none",
+                  "w-full min-w-0 resize-y rounded-xl border bg-white/5 px-3 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-violet-500/50 focus:outline-none sm:px-4",
                   errors.message ? "border-red-500/50" : "border-white/10",
                 )}
                 aria-invalid={Boolean(errors.message)}
@@ -164,10 +225,20 @@ export function ContactForm() {
               </div>
             </div>
 
+            {submitError && (
+              <div
+                role="alert"
+                className="flex items-start gap-2 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm leading-relaxed text-red-300"
+              >
+                <AlertCircle size={17} className="mt-0.5 shrink-0" aria-hidden="true" />
+                <span>{submitError}</span>
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 py-3.5 text-sm text-white shadow-lg shadow-violet-500/20 transition-all hover:from-violet-500 hover:to-fuchsia-500 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-3.5 text-sm text-white shadow-lg shadow-violet-500/20 transition-all hover:-translate-y-0.5 hover:from-violet-500 hover:to-fuchsia-500 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
             >
               {loading ? (
                 <>
@@ -202,7 +273,7 @@ function FieldErrorInput({ label, error, name, ...props }: FieldErrorInputProps)
         id={name}
         name={name}
         className={cn(
-          "w-full rounded-xl border bg-white/5 px-4 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-violet-500/50 focus:outline-none",
+          "w-full min-w-0 rounded-xl border bg-white/5 px-3 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-violet-500/50 focus:outline-none sm:px-4",
           error ? "border-red-500/50" : "border-white/10",
         )}
         aria-invalid={Boolean(error)}

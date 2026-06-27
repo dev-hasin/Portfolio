@@ -18,11 +18,8 @@ export function HeroSection() {
           alt="Dark developer workspace with laptop and code editor"
           className="h-full w-full object-cover opacity-10"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f]/60 via-[#0a0a0f]/80 to-[#0a0a0f]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/85 to-background dark:from-[#0a0a0f]/60 dark:via-[#0a0a0f]/80 dark:to-[#0a0a0f]" />
       </div>
-
-      <div className="absolute left-1/4 top-1/3 h-72 w-72 rounded-full bg-violet-600/20 blur-3xl" />
-      <div className="absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full bg-fuchsia-600/15 blur-3xl" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-20">
         <div className="max-w-3xl">

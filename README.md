@@ -8,6 +8,9 @@ A modern, responsive software engineer portfolio built with React, TypeScript, V
 - Modular section and reusable UI component structure
 - Data-driven content for projects, skills, experience, education, and social links
 - Accessible navigation, form labels, image alt text, and semantic sections
+- Working contact form with validation, spam protection, and delivery feedback
+- Persistent dark/light color theme with an accessible toggle
+- Reduced-motion-aware page and scroll reveal animations
 - SEO-ready HTML metadata
 - Fast Vite build with a trimmed dependency list
 
@@ -54,6 +57,20 @@ npm run dev
 ```
 
 The development server will usually run at `http://localhost:5173`.
+
+## Contact Form
+
+The contact form sends submissions to the portfolio email through FormSubmit. The first
+submission triggers a one-time activation email from FormSubmit; approve it before testing
+delivery again.
+
+To use another form provider, copy `.env.example` to `.env` and set:
+
+```bash
+VITE_CONTACT_ENDPOINT=https://your-form-provider.example/endpoint
+```
+
+For a ready-made FormSubmit configuration, copy `.env.formsubmit.example` to `.env`.
 
 ## Build
 

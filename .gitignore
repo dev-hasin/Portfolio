@@ -4,6 +4,7 @@ build/
 .env
 .env.*
 !.env.example
+!.env.formsubmit.example
 
 .DS_Store
 Thumbs.db

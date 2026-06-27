@@ -24,7 +24,7 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
           alt={`${project.title} project preview`}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
         <div className="absolute bottom-3 left-3">
           <span className={cn("rounded-full border px-2.5 py-1 text-xs", categoryColors[project.category])}>
             {project.category}

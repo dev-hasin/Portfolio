@@ -16,6 +16,12 @@
     />
     <meta property="og:type" content="website" />
     <title>Hasin Falak Kiyani | Software Engineer Portfolio</title>
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("portfolio-theme");
+        document.documentElement.classList.toggle("dark", savedTheme !== "light");
+      })();
+    </script>
     <style>
       html,
       body,

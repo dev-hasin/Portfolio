@@ -92,7 +92,7 @@ function SectionTitle({ icon: Icon, title, accent = "violet" }: SectionTitleProp
 
 function TimelineDot() {
   return (
-    <div className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full border border-violet-500/30 bg-[#0a0a0f]">
+    <div className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full border border-violet-500/30 bg-background">
       <span className="h-2 w-2 rounded-full bg-violet-500" />
     </div>
   );
