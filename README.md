@@ -52,6 +52,8 @@ npm install
 
 ## Running Locally
 
+Run the development server with hot reloading:
+
 ```bash
 npm run dev
 ```
@@ -81,8 +83,11 @@ npm run build
 Preview the production build:
 
 ```bash
-npm run preview
+npm start
 ```
+
+`npm start` serves the generated `dist/` directory on `http://localhost:4173`.
+Run `npm run build` before starting the production server.
 
 ## Deployment
 
