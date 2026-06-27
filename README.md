@@ -75,19 +75,10 @@ This project can be deployed to Vercel, Netlify, GitHub Pages, or any static hos
 2. Deploy the generated `dist/` folder.
 3. Configure your hosting provider to serve `index.html` for client-side routes.
 
-## Updating Portfolio Content
-
-Most portfolio content lives in `src/data/`:
-
-- `profile.ts` for personal details and navigation
-- `projects.ts` for project cards and categories
-- `skills.ts` for technical skills, services, and soft skills
-- `timeline.ts` for experience and education
-- `contact.ts` for contact cards, social links, and FAQs
 
 ## Author
 
 Hasin Falak Kiyani
 
-- GitHub: `https://github.com/your-username`
-- LinkedIn: `https://www.linkedin.com/in/your-profile`
+- GitHub: `https://github.com/dev-hasin`
+- LinkedIn: `https://www.linkedin.com/in/hasinfalakkiyani/`
