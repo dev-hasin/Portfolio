@@ -27,7 +27,6 @@ A modern, responsive software engineer portfolio built with React, TypeScript, V
 
 ```text
 src/
-  assets/
   app/
     pages/
     App.tsx
@@ -38,10 +37,11 @@ src/
     layout/
     sections/
   data/
-  imports/
   styles/
   utils/
   main.tsx
+public/
+  assets/
 ```
 
 ## Installation

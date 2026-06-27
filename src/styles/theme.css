@@ -190,7 +190,7 @@ html.dark {
   }
 }
 
-/* Light-mode bridge for the original Figma utility palette. */
+/* Light-mode bridge for the original dark utility palette. */
 :root:not(.dark) [class~="text-white"] {
   color: #18181b;
 }

@@ -6,7 +6,7 @@ export const profile = {
   email: "hasinkiyani1@gmail.com",
   phone: "+92 318-1560482",
   phoneHref: "tel:+923181560482",
-  resumePath: "/src/imports/Hasin_Falak__Resume.pdf",
+  resumePath: "/assets/Hasin_Falak_Kiyani_Resume.pdf",
   resumeFilename: "Hasin_Falak_Kiyani_Resume.pdf",
   github: "https://github.com/dev-hasin",
   linkedin: "https://www.linkedin.com/in/hasinfalakkiyani/",
