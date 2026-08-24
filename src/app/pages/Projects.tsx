@@ -1,22 +1,24 @@
-import { useMemo, useState } from "react";
-import { Filter } from "lucide-react";
-import { ProjectCard } from "../../components/common/ProjectCard";
-import { SectionHeading } from "../../components/common/SectionHeading";
-import { projectCategories, projects } from "../../data/projects";
-import { cn } from "../../utils/classes";
+import {useMemo, useState} from 'react'
+import {Filter} from 'lucide-react'
+import {ProjectCard} from '../../components/common/ProjectCard'
+import {SectionHeading} from '../../components/common/SectionHeading'
+import {useSiteContent} from '../../context/ContentContext'
+import {projectCategories} from '../../lib/content/types'
+import {cn} from '../../utils/classes'
 
-type ProjectCategory = (typeof projectCategories)[number];
+type ProjectCategoryFilter = (typeof projectCategories)[number]
 
 export function Projects() {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory>("All");
+  const {projects} = useSiteContent()
+  const [activeCategory, setActiveCategory] = useState<ProjectCategoryFilter>('All')
 
   const filteredProjects = useMemo(
     () =>
-      activeCategory === "All"
+      activeCategory === 'All'
         ? projects
         : projects.filter((project) => project.category === activeCategory),
-    [activeCategory],
-  );
+    [activeCategory, projects],
+  )
 
   return (
     <div className="min-h-screen px-6 pb-24 pt-28">
@@ -37,10 +39,10 @@ export function Projects() {
               type="button"
               onClick={() => setActiveCategory(category)}
               className={cn(
-                "rounded-full border px-5 py-2 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f]",
+                'rounded-full border px-5 py-2 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060a10]',
                 activeCategory === category
-                  ? "border-violet-600 bg-violet-600 text-white"
-                  : "border-white/10 bg-white/5 text-gray-400 hover:border-white/20 hover:text-white",
+                  ? 'border-teal-600 bg-teal-600 text-white'
+                  : 'border-white/10 bg-white/5 text-gray-400 hover:border-white/20 hover:text-white',
               )}
               aria-pressed={activeCategory === category}
             >
@@ -60,5 +62,5 @@ export function Projects() {
         )}
       </div>
     </div>
-  );
+  )
 }

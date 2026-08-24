@@ -1,106 +1,100 @@
 # Hasin Falak Kiyani Portfolio
 
-A modern, responsive software engineer portfolio built with React, TypeScript, Vite, and Tailwind CSS. The site highlights projects, skills, experience, education, certifications-ready content structure, and contact details in a clean dark interface.
+A performance-minded React portfolio with a Sanity CMS admin portal. Edit projects, certifications, volunteer experience, work history, education, skills, services, profile, and contact content without changing code.
 
 ## Features
 
-- Responsive portfolio pages for home, projects, about, and contact
-- Modular section and reusable UI component structure
-- Data-driven content for projects, skills, experience, education, and social links
-- Accessible navigation, form labels, image alt text, and semantic sections
-- Working contact form with validation, spam protection, and delivery feedback
-- Persistent dark/light color theme with an accessible toggle
-- Reduced-motion-aware page and scroll reveal animations
-- SEO-ready HTML metadata
-- Fast Vite build with a trimmed dependency list
+- Public Vite + React SPA with CDN-backed Sanity content and local seed fallback
+- Embedded Sanity Studio at `/admin`
+- Persistent dark/light theme toggle
+- Framer Motion hero/project entrances plus scroll reveals
+- Subtle atmospheric background graphics (respects reduced motion)
+- Contact form via FormSubmit
 
 ## Tech Stack
 
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- Lucide React icons
+- React 19, Vite 6, Tailwind CSS 4, React Router 7
+- Sanity (schemas + Studio)
+- Framer Motion, Lucide React
 
-## Folder Structure
-
-```text
-src/
-  app/
-    pages/
-    App.tsx
-    Root.tsx
-    routes.tsx
-  components/
-    common/
-    layout/
-    sections/
-  data/
-  styles/
-  utils/
-  main.tsx
-public/
-  assets/
-```
-
-## Installation
+## Setup
 
 ```bash
 npm install
-```
-
-## Running Locally
-
-Run the development server with hot reloading:
-
-```bash
+cp .env.example .env
 npm run dev
 ```
 
-The development server will usually run at `http://localhost:5173`.
+The site runs with **seed content** until Sanity env vars point at a real project.
+
+### Connect Sanity
+
+1. Create a project at [sanity.io/manage](https://www.sanity.io/manage).
+2. Put the project id and dataset in `.env`:
+
+```bash
+VITE_SANITY_PROJECT_ID=yourActualProjectId
+VITE_SANITY_DATASET=production
+VITE_SANITY_API_VERSION=2025-01-01
+SANITY_STUDIO_PROJECT_ID=yourActualProjectId
+SANITY_STUDIO_DATASET=production
+```
+
+3. In Sanity manage → API → CORS origins, add `http://localhost:5173` and your production domain.
+4. Open `http://localhost:5173/admin`, sign in, and create documents (Site Settings, projects, etc.).
+5. Publish — the public site fetches from the Sanity CDN (no redeploy needed for copy/images).
+
+Optional CLI Studio (separate from the embedded `/admin` route):
+
+```bash
+npm run sanity
+```
+
+### Seeding tip
+
+Use the public seed in `src/data/seed.ts` as the source of truth for first-time content: recreate those entries in Studio (Site Settings singleton, Contact Settings singleton, then list documents for projects, certifications, volunteer, experience, education, skills, tech stack, and services).
+
+## Scripts
+
+| Command | Purpose |
+|--------|---------|
+| `npm run dev` | Vite dev server |
+| `npm run build` | Production build |
+| `npm run preview` / `npm start` | Preview `dist/` |
+| `npm run sanity` | Sanity Studio CLI |
+| `npm run sanity:deploy` | Deploy hosted Studio (optional) |
 
 ## Contact Form
 
-The contact form sends submissions to the portfolio email through FormSubmit. The first
-submission triggers a one-time activation email from FormSubmit; approve it before testing
-delivery again.
-
-To use another form provider, copy `.env.example` to `.env` and set:
+Copy `.env.formsubmit.example` or set:
 
 ```bash
 VITE_CONTACT_ENDPOINT=https://your-form-provider.example/endpoint
 ```
 
-For a ready-made FormSubmit configuration, copy `.env.formsubmit.example` to `.env`.
+## Folder Structure
 
-## Build
-
-```bash
-npm run build
+```text
+src/
+  app/           pages + router (includes /admin)
+  components/    UI, layout, sections
+  context/       ContentProvider (Sanity + seed)
+  data/          seed fallback content
+  lib/           Sanity client, queries, content types
+  sanity/        schema types + Studio entry
+  styles/
+sanity.config.ts
 ```
 
-Preview the production build:
+## Deploy
 
-```bash
-npm start
-```
+Build is a static SPA (`dist/`). Deploy to Vercel, Netlify, Render, or GitHub Pages with SPA fallback to `index.html`.
 
-`npm start` serves the generated `dist/` directory on `http://localhost:4173`.
-Run `npm run build` before starting the production server.
+Set the same `VITE_SANITY_*` env vars in your host. Keep Studio write tokens out of the frontend — Studio uses Sanity login.
 
-## Deployment
+## Performance notes
 
-This project can be deployed to Vercel, Netlify, GitHub Pages, or any static hosting provider.
-
-1. Run `npm run build`.
-2. Deploy the generated `dist/` folder.
-3. Configure your hosting provider to serve `index.html` for client-side routes.
-
-
-## Author
-
-Hasin Falak Kiyani
-
-- GitHub: `https://github.com/dev-hasin`
-- LinkedIn: `https://www.linkedin.com/in/hasinfalakkiyani/`
+- Public reads use Sanity CDN (`useCdn: true`)
+- One batched GROQ query for site content
+- If Sanity is unreachable or unset, seed content loads immediately
+- Animations honor `prefers-reduced-motion`

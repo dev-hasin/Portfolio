@@ -26,7 +26,7 @@ export function useScrollReveal(routeKey: string) {
 
     elements.forEach((element, index) => {
       element.classList.add("reveal-ready");
-      element.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 60}ms`);
+      element.style.setProperty("--reveal-delay", `${Math.min(index % 5, 4) * 80}ms`);
       observer.observe(element);
     });
 
