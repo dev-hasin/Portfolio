@@ -5,7 +5,7 @@ export function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6 pt-20">
       <div className="text-center">
-        <p className="mb-4 bg-gradient-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-8xl text-transparent md:text-9xl">
+        <p className="mb-4 bg-gradient-to-r from-teal-300 to-sky-300 bg-clip-text text-8xl text-transparent md:text-9xl">
           404
         </p>
         <h1 className="text-2xl md:text-3xl text-white mb-4">Page Not Found</h1>
@@ -15,7 +15,7 @@ export function NotFound() {
         <div className="flex flex-wrap justify-center gap-4">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-3 text-sm text-white"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-600 to-sky-500 px-6 py-3 text-sm text-white"
           >
             <Home size={15} /> Go Home
           </Link>

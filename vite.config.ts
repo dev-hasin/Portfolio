@@ -7,4 +7,10 @@ export default defineConfig({
   preview: {
     allowedHosts: ["hasinkiyani.onrender.com"],
   },
+  resolve: {
+    dedupe: ["react", "react-dom", "styled-components"],
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "styled-components"],
+  },
 });

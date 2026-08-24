@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AlertCircle, CheckCircle, Send } from "lucide-react";
-import { profile } from "../../data/profile";
+import { useSiteContent } from "../../context/ContentContext";
 import { cn } from "../../utils/classes";
 
 type FormData = {
@@ -24,11 +24,11 @@ const subjectOptions = [
   { value: "other", label: "Other" },
 ];
 
-const contactEndpoint =
-  import.meta.env.VITE_CONTACT_ENDPOINT?.trim() ||
-  `https://formsubmit.co/ajax/${profile.email}`;
-
 export function ContactForm() {
+  const { profile } = useSiteContent();
+  const contactEndpoint =
+    import.meta.env.VITE_CONTACT_ENDPOINT?.trim() ||
+    `https://formsubmit.co/ajax/${profile.email}`;
   const [form, setForm] = useState<FormData>(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -138,7 +138,7 @@ export function ContactForm() {
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-xl bg-violet-600 px-6 py-2.5 text-sm text-white transition-colors hover:bg-violet-500"
+              className="rounded-xl bg-teal-600 px-6 py-2.5 text-sm text-white transition-colors hover:bg-teal-500"
             >
               Send Another Message
             </button>
@@ -185,16 +185,16 @@ export function ContactForm() {
                 value={form.subject}
                 onChange={handleChange}
                 className={cn(
-                  "w-full min-w-0 appearance-none rounded-xl border bg-white/5 px-3 py-3 text-sm transition-colors focus:border-violet-500/50 focus:outline-none sm:px-4",
+                  "w-full min-w-0 appearance-none rounded-xl border bg-white/5 px-3 py-3 text-sm transition-colors focus:border-teal-500/50 focus:outline-none sm:px-4",
                   errors.subject ? "border-red-500/50" : "border-white/10",
                   form.subject ? "text-white" : "text-gray-600",
                 )}
                 aria-invalid={Boolean(errors.subject)}
                 aria-describedby={errors.subject ? "subject-error" : undefined}
               >
-                <option value="" className="bg-[#1a1a2e]">Select a subject...</option>
+                <option value="" className="bg-[#121c2e]">Select a subject...</option>
                 {subjectOptions.map((option) => (
-                  <option key={option.value} value={option.value} className="bg-[#1a1a2e]">
+                  <option key={option.value} value={option.value} className="bg-[#121c2e]">
                     {option.label}
                   </option>
                 ))}
@@ -213,7 +213,7 @@ export function ContactForm() {
                 maxLength={2000}
                 placeholder="Tell me about your project or idea..."
                 className={cn(
-                  "w-full min-w-0 resize-y rounded-xl border bg-white/5 px-3 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-violet-500/50 focus:outline-none sm:px-4",
+                  "w-full min-w-0 resize-y rounded-xl border bg-white/5 px-3 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-teal-500/50 focus:outline-none sm:px-4",
                   errors.message ? "border-red-500/50" : "border-white/10",
                 )}
                 aria-invalid={Boolean(errors.message)}
@@ -238,7 +238,7 @@ export function ContactForm() {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-3.5 text-sm text-white shadow-lg shadow-violet-500/20 transition-all hover:-translate-y-0.5 hover:from-violet-500 hover:to-fuchsia-500 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-teal-600 to-sky-500 px-4 py-3.5 text-sm text-white shadow-lg shadow-teal-500/20 transition-all hover:-translate-y-0.5 hover:from-teal-500 hover:to-sky-500 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
             >
               {loading ? (
                 <>
@@ -273,7 +273,7 @@ function FieldErrorInput({ label, error, name, ...props }: FieldErrorInputProps)
         id={name}
         name={name}
         className={cn(
-          "w-full min-w-0 rounded-xl border bg-white/5 px-3 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-violet-500/50 focus:outline-none sm:px-4",
+          "w-full min-w-0 rounded-xl border bg-white/5 px-3 py-3 text-sm text-white placeholder-gray-600 transition-colors focus:border-teal-500/50 focus:outline-none sm:px-4",
           error ? "border-red-500/50" : "border-white/10",
         )}
         aria-invalid={Boolean(error)}
@@ -288,7 +288,7 @@ function FieldErrorInput({ label, error, name, ...props }: FieldErrorInputProps)
 function FormLabel({ children, htmlFor }: { children: React.ReactNode; htmlFor: string }) {
   return (
     <label htmlFor={htmlFor} className="mb-2 block text-xs text-gray-400">
-      {children} <span className="text-violet-300">*</span>
+      {children} <span className="text-teal-300">*</span>
     </label>
   );
 }

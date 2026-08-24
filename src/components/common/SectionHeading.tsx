@@ -17,8 +17,8 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className={cn(align === "center" && "text-center", className)}>
-      <p className="mb-3 text-sm uppercase tracking-widest text-violet-300">{eyebrow}</p>
-      <h2 className="text-3xl leading-tight text-white md:text-4xl">{title}</h2>
+      <p className="mb-3 text-sm uppercase tracking-widest text-teal-300">{eyebrow}</p>
+      <h2 className="font-display text-3xl leading-tight text-white md:text-4xl">{title}</h2>
       {description && (
         <p
           className={cn(

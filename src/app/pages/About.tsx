@@ -1,6 +1,8 @@
-import { AboutHeroSection } from "../../components/sections/AboutHeroSection";
-import { TechStackSection } from "../../components/sections/TechStackSection";
-import { TimelineSection } from "../../components/sections/TimelineSection";
+import {AboutHeroSection} from '../../components/sections/AboutHeroSection'
+import {CertificationsSection} from '../../components/sections/CertificationsSection'
+import {TechStackSection} from '../../components/sections/TechStackSection'
+import {TimelineSection} from '../../components/sections/TimelineSection'
+import {VolunteerSection} from '../../components/sections/VolunteerSection'
 
 export function About() {
   return (
@@ -8,6 +10,8 @@ export function About() {
       <AboutHeroSection />
       <TechStackSection />
       <TimelineSection />
+      <VolunteerSection />
+      <CertificationsSection />
     </div>
-  );
+  )
 }
